@@ -1,4 +1,4 @@
-var playerName = window.prompt("What is your robot's name?");
+var playerName = prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
@@ -60,7 +60,7 @@ var fight = function(enemyName) {
 
     // check player's health
     if (playerHealth <= 0) {
-      window.alert(playerName + ' has died!');
+      alert(playerName + ' has died!');
       // leave while() loop if player is dead
       break;
     } else {
@@ -94,6 +94,18 @@ var startGame = function() {
 
       // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
       fight(pickedEnemyName);
+
+      // if we're not at the last enemy in the array
+      // if player is still alive and we're not at the last enemy in the array
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        // ask if player wants to use the store before next round
+        var storeConfirm = confirm("The fight is over, visit the store before the next round?");
+      
+        // if yes, take them to the store() function
+        if (storeConfirm) {
+          shop();
+        }
+      }
     }
     // if player isn't alive, stop the game
     else {
@@ -116,14 +128,60 @@ var endGame = function() {
   }
 
   // ask player if they'd like to play again
-  var playAgainConfirm = window.confirm("Would you like to play again?");
+  var playAgainConfirm = confirm("Would you like to play again?");
 
   if (playAgainConfirm) {
     // restart the game
     startGame();
   } 
   else {
-    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+    alert("Thank you for playing Robot Gladiators! Come back soon!");
+  }
+};
+
+//shop function
+var shop = function() {
+  // ask player what they'd like to do
+  var shopOptionPrompt = prompt(
+    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+  );
+
+  // use switch to carry out action
+  switch (shopOptionPrompt) {
+    case "REFILL": // new case
+    case "refill":
+      if (playerMoney >= 7) {
+        alert("Refilling player's health by 20 for 7 dollars.");
+  
+        playerHealth = playerHealth + 20;
+        playerMoney = playerMoney - 7;
+      }
+      else {
+        alert("You don't have enough money!");
+      }
+  
+      break;
+    case "UPGRADE": // new case
+    case "upgrade":
+      if (playerMoney >= 7) {
+        alert("Upgrading player's attack by 6 for 7 dollars.");
+  
+        playerAttack = playerAttack + 6;
+        playerMoney = playerMoney - 7;
+      }
+      else {
+        alert("You don't have enough money!");
+      }
+  
+      break;
+    case "LEAVE": // new case
+    case "leave":
+      alert("Leaving the store.");
+      break;
+    default:
+      alert("You did not pick a valid option. Try again.");
+      shop();
+      break;
   }
 };
 
